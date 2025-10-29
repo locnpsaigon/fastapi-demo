@@ -39,8 +39,8 @@ export default function () {
 
   // --- Kiểm tra phản hồi ---
   check(res, {
-    'status is 200': (r) => r.status === 200
-	//'response time < 2s': (r) => r.timings.duration < 2000
+    'status is 200': (r) => r.status === 200,
+	  'response time < 2s': (r) => r.timings.duration < 2000
   });
 
   // Log ngắn gọn khi lỗi
