@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+#  postgres:
+#    image: postgres:15
+#    environment:
+#      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+#      POSTGRES_DB: ${POSTGRES_DB:-appdb}
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+  web:
+    build: .
+#    image: fastapi-v1
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8100:8000"
+#    depends_on:
+#      - postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-webapi}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-webapi123}
+      POSTGRES_DB: ${POSTGRES_DB:-sampledb}
+      POSTGRES_HOST: 192.168.3.30
+      POSTGRES_PORT: 5432
+      PYTHONPATH: /app
+    volumes:
+      - ./app:/app
+#volumes:
+#  pgdata:
