@@ -1,0 +1,7 @@
+docker run -d -p 8200:8000 --name fastapi-web \
+-e POSTGRES_USER=postgres \
+-e POSTGRES_PASSWORD=changeme \
+-e POSTGRES_DB=sampledb \
+-e POSTGRES_HOST=192.168.3.30 \
+-e POSTGRES_PORT=5433 \
+camel173/fastapi-demo:v1

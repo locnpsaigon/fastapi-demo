@@ -15,7 +15,7 @@ const customers = new SharedArray('customers', function () {
 });
 
 export default function () {
-  const url = 'http://fastapi.local:8100/customers/';
+  const url = 'http://192.168.3.30:8100/customers/';
 
   // Clone mảng SharedArray để có thể thao tác
   const cloned = [...customers];

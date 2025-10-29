@@ -1,31 +1,40 @@
-version: "3.8"
 services:
-#  postgres:
-#    image: postgres:15
-#    environment:
-#      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-#      POSTGRES_DB: ${POSTGRES_DB:-appdb}
-#    ports:
-#      - "5432:5432"
-#    volumes:
-#      - pgdata:/var/lib/postgresql/data
+  postgres:
+    image: postgres:15
+    container_name: fastapi-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_DB: ${POSTGRES_DB:-sampledb}
+    ports:
+      - "5433:5432"
+    networks:
+      - fastapi
+    volumes:
+      - pgdata:/var/lib/postgresql/data
   web:
-    build: .
-#    image: fastapi-v1
+#    build: .
+    image: camel173/fastapi-demo:v1
+    container_name: fastapi-demo
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     ports:
       - "8100:8000"
-#    depends_on:
-#      - postgres
+    depends_on:
+      - postgres
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-webapi}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-webapi123}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       POSTGRES_DB: ${POSTGRES_DB:-sampledb}
-      POSTGRES_HOST: 192.168.3.30
-      POSTGRES_PORT: 5432
-      PYTHONPATH: /app
+      POSTGRES_HOST: ${POSTGRES_HOST:-postgres}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+    networks:
+      - fastapi
     volumes:
       - ./app:/app
-#volumes:
-#  pgdata:
+
+networks:
+  fastapi:
+    driver: bridge
+
+volumes:
+  pgdata:
